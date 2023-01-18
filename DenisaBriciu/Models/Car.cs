@@ -12,7 +12,7 @@ namespace Proiect_DenisaBriciu.Models
         [Display(Name = "Car Name")]
         public string Name { get; set; }
 
-        [Column(TypeName = "decimal(9, 9)")]
+        [Column(TypeName = "decimal(6, 2)")]
         public decimal Price { get; set; }
 
         [Display(Name = "Manufacturing Date")]
