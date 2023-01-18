@@ -32,7 +32,6 @@ namespace Proiect_DenisaBriciu.Pages.Cars
             }
 
             var car =  await _context.Car
-           
             .Include(b => b.Brand)
             .Include(b => b.CarCategories).ThenInclude(b => b.Category)
              .AsNoTracking()

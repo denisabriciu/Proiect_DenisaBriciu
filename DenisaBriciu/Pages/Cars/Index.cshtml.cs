@@ -19,18 +19,45 @@ namespace Proiect_DenisaBriciu.Pages.Cars
             _context = context;
         }
 
-        public IList<Car> Car { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public IList<Car> Car { get; set; }
+        public string CurrentFilter { get; set; }
+        public string PriceSort { get; set; }
+        public CarData CarD { get; set; }
+        public int CarID { get; set; }
+        public int CategoryID { get; set; }
+        public async Task OnGetAsync(int? id, int? categoryID, string sortOrder, string searchString)
         {
-            if (_context.Car != null)
+            CarD = new CarData();
+            PriceSort = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            CurrentFilter = searchString;
+            CarD.Cars = await _context.Car
+            .Include(b => b.Brand)
+            .Include(b => b.CarCategories)
+            .ThenInclude(b => b.Category)
+            .AsNoTracking()
+            .OrderBy(b => b.Name)
+            .ToListAsync();
+            if (!String.IsNullOrEmpty(searchString))
             {
-                Car = await _context.Car
-                   
-               .Include(b => b.Brand)
-               .Include(b => b.CarCategories)
+                CarD.Cars = CarD.Cars.Where(s => s.Brand.BrandName.Contains(searchString));
 
-                    .ToListAsync();
+
+              
+            }
+                if (id != null)
+            {
+                CarID = id.Value;
+                Car car = CarD.Cars
+                .Where(i => i.ID == id.Value).Single();
+                CarD.Categories = car.CarCategories.Select(s => s.Category);
+            }
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    CarD.Cars = CarD.Cars.OrderByDescending(s =>
+                     s.Price);
+                    break;
+
             }
         }
     }

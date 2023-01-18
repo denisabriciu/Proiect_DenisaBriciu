@@ -15,11 +15,12 @@ namespace Proiect_DenisaBriciu.Models
         
         public decimal Price { get; set; }
 
-        [Display(Name = "Manufacturing Year")]
+        [Display(Name = "Manufacturing Date")]
         [DataType(DataType.Date)]
         public DateTime ManufacturingYear { get; set; }
         public int? BrandID { get; set; }
         public Brand? Brand{ get; set; }
+        [Display(Name = "Specifications")]
         public ICollection<CarCategory>? CarCategories { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model Proiect_DenisaBriciu.Pages.Brands.IndexModel
 
 @{
@@ -16,16 +16,25 @@
             <th>
                 @Html.DisplayNameFor(model => model.Brand[0].BrandName)
             </th>
+            
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Brand) {
-        <tr>
+        @foreach (var item in Model.BrandData.Brands)
+        {
+        string selectedRow = "";
+        if (item.ID == Model.BrandID)
+        {
+        selectedRow = "table-success";
+        }
+        <tr class="@selectedRow">
             <td>
                 @Html.DisplayFor(modelItem => item.BrandName)
             </td>
             <td>
+                    <a asp-page="./Index" asp-route-id="@item.ID">Select</a> |
+
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
@@ -34,3 +43,33 @@
 }
     </tbody>
 </table>
+@if (Model.BrandData.Brands!=null)
+{
+    <h3>The cars that correspond to the brand</h3>
+    <table class="table">
+
+        @foreach (var item in Model.BrandData.Brands)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.BrandID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+
+                <td>
+                    @{
+                        foreach (var b in item.Cars)
+                        {
+
+                            @b.Name 
+
+                            <br />
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+

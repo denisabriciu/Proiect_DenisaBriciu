@@ -21,15 +21,25 @@ namespace Proiect_DenisaBriciu.Pages.Brands
             _context = context;
         }
 
-        public IList<Brand> Brand { get;set; } = default!;
-        
-
-            public async Task OnGetAsync()
+        public IList<Brand> Brand { get;set; } 
+        public BrandIndexData BrandData { get; set; }
+        public int BrandID { get; set; }
+        public int CarID { get; set; }
+        public async Task OnGetAsync(int? id, int? carID)
         {
-            if (_context.Brand != null)
+            BrandData = new BrandIndexData();
+            BrandData.Brands = await _context.Brand
+            .Include(i => i.Cars)
+            .ToListAsync();
+            if (id != null)
             {
-                Brand = await _context.Brand.ToListAsync();
+                BrandID = id.Value;
+                Brand brand = BrandData.Brands
+                .Where(i => i.ID == id.Value).Single();
+                BrandData.Cars = brand.Cars;
             }
+
         }
+           
     }
 }

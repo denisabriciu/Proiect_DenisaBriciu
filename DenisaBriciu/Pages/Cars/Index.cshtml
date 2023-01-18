@@ -10,6 +10,16 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by Brand Name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -17,7 +27,9 @@
                 @Html.DisplayNameFor(model => model.Car[0].Name)
             </th>
             <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.PriceSort">
                 @Html.DisplayNameFor(model => model.Car[0].Price)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Car[0].ManufacturingYear)
@@ -32,23 +44,38 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Car) {
-        <tr>
+        @foreach (var item in Model.CarD.Cars)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.CarID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
+                
                 @Html.DisplayFor(modelItem => item.Price)
+                
             </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ManufacturingYear)
-                </td>
-                     <td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturingYear)
+            </td>
+             <td>
+                 
                     @Html.DisplayFor(modelItem => item.Brand.BrandName)
-                    </td>
-                          <td>
-                    @Html.DisplayFor(modelItem => item.CarCategories)
-                        </td>
+                    
+              </td>
+                <td>
+                    @{
+                        foreach (var category in item.CarCategories)
+                        {
+                            @category.Category.ID @: @category.Category.CategoryName <br />
+                        }
+                    }
+                </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
