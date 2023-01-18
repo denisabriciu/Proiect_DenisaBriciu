@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Proiect_DenisaBriciu.Data;
 using Proiect_DenisaBriciu.Models;
 
 namespace Proiect_DenisaBriciu.Pages.Cars
 {
-    public class CreateModel : PageModel
+    public class CreateModel : CarCategoriesPageModel
     {
         private readonly Proiect_DenisaBriciu.Data.Proiect_DenisaBriciuContext _context;
 
@@ -23,25 +24,40 @@ namespace Proiect_DenisaBriciu.Pages.Cars
         public IActionResult OnGet()
         {
             ViewData["BrandID"] = new SelectList(_context.Set<Brand>(), "ID", "BrandName");
+            var car = new Car();
+            car.CarCategories = new List<CarCategory>();
+            PopulateAssignedCategoryData(_context, car);
             return Page();
         }
 
         [BindProperty]
         public Car Car { get; set; }
-        
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+
+        public async Task<IActionResult> OnPostAsync(string[] selectedCategories)
         {
-          if (!ModelState.IsValid)
+            var newCar = new Car();
+            if (selectedCategories != null)
             {
-                return Page();
+                newCar.CarCategories = new List<CarCategory>();
+                foreach (var cat in selectedCategories)
+                {
+                    var catToAdd = new CarCategory
+                    {
+                        CategoryID = int.Parse(cat)
+                    };
+                    newCar.CarCategories.Add(catToAdd);
+                }
             }
-
+            Car.CarCategories = newCar.CarCategories;
             _context.Car.Add(Car);
             await _context.SaveChangesAsync();
-
             return RedirectToPage("./Index");
+            
+            PopulateAssignedCategoryData(_context, newCar);
+            return Page();
         }
+        
     }
 }
+

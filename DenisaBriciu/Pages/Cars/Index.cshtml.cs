@@ -28,6 +28,7 @@ namespace Proiect_DenisaBriciu.Pages.Cars
                 Car = await _context.Car
                    
                .Include(b => b.Brand)
+               .Include(b => b.CarCategories)
 
                     .ToListAsync();
             }

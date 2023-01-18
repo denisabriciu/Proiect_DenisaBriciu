@@ -30,10 +30,42 @@
                 <span asp-validation-for="Car.ManufacturingYear" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Car.BrandID" class="control-label"></label>
-                <input asp-for="Car.Brand" class="form-control" />
-                <span asp-validation-for="Car.BrandID" class="text-danger"></span>
+                <label asp-for="Car.Brand.BrandName" class="control-label"></label>
+                <input asp-for="Car.Brand.BrandName" class="form-control" />
+                <span asp-validation-for="Car.Brand.BrandName" class="text-danger"></span>
             </div>
+              <div class="form-group">
+                <label asp-for="Car.CarCategories" class="control-label"></label>
+                <input asp-for="Car.CarCategories" class="form-control" />
+                <span asp-validation-for="Car.CarCategories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+ <div class="table">
+ <table>
+ <tr>
+ @{
+ int cnt = 0;
+ foreach (var cat in Model.AssignedCategoryDataList)
+{
+ if (cnt++ % 3 == 0)
+{
+@:</tr><tr>
+}
+@:<td>
+ <input type="checkbox"
+ name="selectedCategories"
+ value="@cat.CategoryID"
+ @(Html.Raw(cat.Assigned ?
+"checked=\"checked\"" : "")) />
+ @cat.CategoryID @: @cat.Name
+ @:</td>
+ }
+ @:</tr>
+}
+ </table>
+ </div>
+ </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
