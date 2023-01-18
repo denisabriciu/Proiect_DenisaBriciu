@@ -19,5 +19,7 @@ namespace Proiect_DenisaBriciu.Data
         public DbSet<Proiect_DenisaBriciu.Models.Brand> Brand { get; set; }
 
         public DbSet<Proiect_DenisaBriciu.Models.Category> Category { get; set; }
+
+        public DbSet<Proiect_DenisaBriciu.Models.Member> Member { get; set; }
     }
 }

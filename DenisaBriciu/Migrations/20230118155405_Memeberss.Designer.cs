@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proiect_DenisaBriciu.Data;
 
@@ -11,9 +12,10 @@ using Proiect_DenisaBriciu.Data;
 namespace Proiect_DenisaBriciu.Migrations
 {
     [DbContext(typeof(Proiect_DenisaBriciuContext))]
-    partial class Proiect_DenisaBriciuContextModelSnapshot : ModelSnapshot
+    [Migration("20230118155405_Memeberss")]
+    partial class Memeberss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
