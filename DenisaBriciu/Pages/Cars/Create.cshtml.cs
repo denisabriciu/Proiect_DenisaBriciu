@@ -53,11 +53,8 @@ namespace Proiect_DenisaBriciu.Pages.Cars
             _context.Car.Add(Car);
             await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
-            
-            PopulateAssignedCategoryData(_context, newCar);
-            return Page();
         }
-        
+       
     }
 }
 

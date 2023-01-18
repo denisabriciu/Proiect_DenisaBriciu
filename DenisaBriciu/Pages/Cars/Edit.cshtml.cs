@@ -40,8 +40,9 @@ namespace Proiect_DenisaBriciu.Pages.Cars
             {
                 return NotFound();
             }
-            PopulateAssignedCategoryData(_context, Car);
             Car = car;
+            PopulateAssignedCategoryData(_context, Car);
+            
             ViewData["BrandID"] = new SelectList(_context.Set<Brand>(), "ID","BrandName");
             return Page();
         }
